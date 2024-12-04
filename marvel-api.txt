@@ -1,0 +1,5 @@
+my public key = 4ab805c65c4402360e4572c3a376eb0c
+my private key = ae9c693da596b3cea2dfb3dfa27d2cba8413aa2e
+MD5 hash = abd3b89de45fdd5c8bcddc0dfbfc82f1
+
+SHA1 hash = e0ba06c882b118b99aa06c5a61403f862b7d2836
