@@ -1,26 +1,38 @@
 import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Homepage from './Homepage';
 import CharacterList from './CharacterList';
-import CharacterDetail from './CharacterDetail';
+import CharacterDetails from './CharacterDetails';
+import NotFound from './NotFound';
+import NavigationBar from './NavigationBar';
 
 function App() {
-    const [selectedCharacterId, setSelectedCharacterId] = useState(null); // Track selected character ID
+  const [recentCharacters, setRecentCharacters] = useState([]);
 
-    const handleCharacterSelect = (characterId) => {
-        setSelectedCharacterId(characterId); // Update selected character ID
-    };
+  const handleCharacterSelect = (character) => {
+    setRecentCharacters((prev) => {
+      const updated = [character, ...prev.filter((item) => item.id !== character.id)];
+      return updated.slice(0, 3); // Keep only the last 3 unique characters
+    });
+  };
 
-    return (
-        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-            <h1>Marvel Comics Viewer</h1>
-            
-            {/* Render the CharacterList and pass the selection handler */}
-            <CharacterList onCharacterSelect={handleCharacterSelect} />
-            
-            {/* Render CharacterDetail dynamically based on selected character */}
-            {selectedCharacterId && <CharacterDetail characterId={selectedCharacterId} />}
-        </div>
-    );
+  return (
+    <>
+      <NavigationBar />
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route 
+          path="/character-list" 
+          element={<CharacterList onCharacterSelect={handleCharacterSelect} />} 
+        />
+        <Route 
+          path="/character-details/:characterId" 
+          element={<CharacterDetails recentCharacters={recentCharacters} />} 
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
-
